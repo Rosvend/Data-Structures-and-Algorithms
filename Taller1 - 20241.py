@@ -1,8 +1,6 @@
 import random
 import datetime
-#Daniel
-#Llega a las mesas al lado de santa elena 
-#y traete un pc si tienes
+ 
 
 class Persona:
     def __init__(self, id_persona, tiempo_llegada):
