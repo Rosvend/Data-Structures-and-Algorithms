@@ -43,13 +43,39 @@ class Taller1:
         self.agentes = []
         self.fila = Fila()
 
-    def inicializar_cliente(self, M):
+    def inicializar_personas(self, M):
         for i in range(M):
-            tiempo_llegada = random.randint(0, 3600)
-            persona = Persona(i, tiempo_llegada)
+            tiempo_llegada = random.randint(0, 28800)
+            persona = Persona(i+1, tiempo_llegada)
             self.personas.append(persona)
-        
-    def inicializar_agente(self,N):
+            self.fila.agregar_persona(persona)
+    
+    def inicializar_agentes(self, N):
         for _ in range(N):
             agente = Agente()
             self.agentes.append(agente)
+    
+    def core_simulacion(self):
+        tiempo_actual = 0
+        while tiempo_actual <= 28800:
+            for agente in self.agentes:
+                if tiempo_actual >= agente.tiempo_ocupado:
+                    persona_atendida = self.fila.siguiente_persona()
+                    if persona_atendida:
+                        persona_atendida.tiempo_espera = tiempo_actual - persona_atendida.tiempo_llegada
+                        agente.tiempo_ocupado = tiempo_actual + persona_atendida.tiempo_servicio
+            tiempo_actual += 1
+    
+    def obtener_resultados(self):
+        tiempo_total_ocupado = sum(agente.tiempo_ocupado for agente in self.agentes)
+        tiempo_promedio_espera = sum(persona.tiempo_espera for persona in self.personas) / len(self.personas)
+        return tiempo_total_ocupado, tiempo_promedio_espera
+
+# Test
+taller = Taller1()
+taller.inicializar_personas(10)
+taller.inicializar_agentes(2)
+taller.core_simulacion()
+tiempo_total_ocupado, tiempo_promedio_espera = taller.obtener_resultados()
+print(f"Tiempo total ocupado por los agentes: {tiempo_total_ocupado}s")
+print(f"Tiempo promedio de espera en la fila: {tiempo_promedio_espera}s")
