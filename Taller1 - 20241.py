@@ -38,7 +38,6 @@ class Fila:
             return self.personas.pop(0)
         else:
             return None
-    def _ _str_ _(self)
 
 class Taller1:
     def __init__(self):
