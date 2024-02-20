@@ -3,11 +3,11 @@ import datetime
  
 
 class Persona:
-    def __init__(self, id_persona, tiempo_llegada):
+    def __init__(self, id_persona, tiempo_llegada,tiempo_espera):
         self.id_persona = id_persona
         self.tiempo_llegada = tiempo_llegada
         self.tiempo_servicio = random.randint(300, 3600) #tiempo_servicio
-        self.tiempo_espera = datetime.timedelta() #datetime.timedelta() #Inicializa el tiempo
+        self.tiempo_espera = tiempo_espera
     
     def __str__(self):
         return f"Persona {self.id_persona}: Llegada={self.tiempo_llegada}s, Servicio={self.tiempo_servicio}s, Espera={self.tiempo_espera}s"
@@ -37,7 +37,7 @@ class Fila:
         else:
             return None
 
-class Taller1:
+class simulacion:
     def __init__(self):
         self.personas = []
         self.agentes = []
@@ -72,7 +72,7 @@ class Taller1:
         return tiempo_total_ocupado, tiempo_promedio_espera
 
 # Test
-taller = Taller1()
+taller = simulacion()
 taller.inicializar_personas(10)
 taller.inicializar_agentes(2)
 taller.core_simulacion()
