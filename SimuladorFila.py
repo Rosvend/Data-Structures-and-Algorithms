@@ -28,7 +28,7 @@ class SimuladorFila:
         # Calculate total occupied time
         self.total_tiempo_ocupado = sum(self.tiempo_ocupado)
 
-    def getPromedioEspera(self):
+    def getPromedioOcupacion(self):
         cola = []  # Declare the variable "cola"
         total_personas = len(self.personas) + len(cola)
         return (self.total_espera / total_personas) if total_personas > 0 else 0
