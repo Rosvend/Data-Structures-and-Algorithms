@@ -8,10 +8,10 @@ class SimuladorFila:
         self.total_espera = 0
 
     def correrSimulation(self):
-        # Initialize simulation variables
+    
         cola = []
 
-        # Run simulation
+        
         for t in range(self.max_time + 1):
             # Add new arrivals to queue
             while self.personas and self.personas[0].llegada == t:
