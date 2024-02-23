@@ -63,13 +63,13 @@ class taller1:
         return promedio_ocupacion, promedio_espera
 
 def optimizar_agentes(M):
-    N = 1  # Start with 1 agent
+    N = 10 #Empieza con 10 agentes 
     while True:
         promedio_ocupacion, promedio_espera = taller1.simular(M, N)
-        print(f"Testing with {N} agents: Occupancy = {promedio_ocupacion}%, Average Wait = {promedio_espera} seconds")
+        print(f"Probando con {N} agentes: Tiempo ocupado = {promedio_ocupacion}%, Espera promedio = {promedio_espera} segundos")
         if promedio_ocupacion > 50 and promedio_espera < 60:
             break
-        N += 1
+        N += 10 #Va intentando de 10 en 10 hasta encontrar el número óptimo de agentes
     return N, promedio_ocupacion, promedio_espera
 
 def main():
