@@ -49,34 +49,31 @@ class Cola:
     def __str__(self):
         return "\n".join(str(persona) for persona in self.personas)
 
-def taller1(M,N):
-    for i in range(0,28800):
-    # Simulación con manejo de tiempo y múltiples N
-        cola_servicio = Cola()
-        N = []
 
-        personas = [Persona(i + 1, random.randint(0, 28800), random.randint(300, 3601)) for i in range(M)]
-        agentes = [Agente(f'A{i + 1}') for i in range(N)]
-        cola = Cola()
-        for persona in sorted(personas, key=lambda x: x.hora_llegada):
-            cola.encolar(persona)
-        
-        tiempo_actual = 0
-        max_tiempo = 28800  # 8 hours in seconds
-
-    while tiempo_actual <= max_tiempo or not cola.esta_vacia():
+def simular(M, N):
+    personas = [Persona(i + 1, random.randint(0, 28800), random.randint(300, 3601)) for i in range(M)]
+    agentes = [Agente(f'A{i + 1}') for i in range(N)]
+    cola = Cola()
+    for persona in sorted(personas, key=lambda x: x.hora_llegada):
+        cola.encolar(persona)
+    
+    tiempo_actual = 0
+    while tiempo_actual < 28800 or not cola.esta_vacia():
         for agente in agentes:
-            if not cola.esta_vacia() and (tiempo_actual >= cola.personas[0].hora_llegada):
-                persona = cola.desencolar()
-                persona.tiempo_espera = max(0, tiempo_actual - persona.hora_llegada)
-                tiempo_actual += persona.tiempo_servicio
-                agente.tiempo_total_ocupado += persona.tiempo_servicio
-        tiempo_actual += 1  # Increment the simulation time
-        # Estado final de la cola y los N
-        print("Estado Final de la Cola:")
-        print(cola_servicio)
-        for agente in N:
-            print("Estado del Agente:", agente)
+            if agente.disponible_desde <= tiempo_actual and not cola.esta_vacia():
+                if cola.personas[0].hora_llegada <= tiempo_actual:
+                    persona = cola.desencolar()
+                    persona.tiempo_espera = tiempo_actual - persona.hora_llegada
+                    agente.tiempo_total_ocupado += persona.tiempo_servicio
+                    agente.disponible_desde = tiempo_actual + persona.tiempo_servicio
+                    print(f"Atendiendo a ID Persona: {persona.id_persona} por {agente.id_agente}")
+        tiempo_actual += 1
+
+    # Print final states
+    print("\nEstado Final de la Cola:")
+    print(cola)
+    for agente in agentes:
+        print(agente)
 
 
 def main():
@@ -94,7 +91,7 @@ def main():
         agente = Agente('A'+str(i+1)+'')
         N.append(agente)
 
-    taller1(M,N)
+    simular(M,N)
 
 
 main()

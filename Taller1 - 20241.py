@@ -35,7 +35,7 @@ class Cola:
     def __str__(self):
         return "\n".join(str(persona) for persona in self.personas)
 
-def simular(M, N):
+def simular(M, N): #Arreglar que cada agente solo puede atender una persona
     personas = [Persona(i + 1, random.randint(0, 28800), random.randint(300, 3601)) for i in range(M)]
     agentes = [Agente(f'A{i + 1}') for i in range(N)]
     cola = Cola()
@@ -43,22 +43,34 @@ def simular(M, N):
         cola.encolar(persona)
     
     tiempo_actual = 0
+    total_tiempo_espera = 0
     while tiempo_actual < 28800 or not cola.esta_vacia():
         for agente in agentes:
             if agente.disponible_desde <= tiempo_actual and not cola.esta_vacia():
                 if cola.personas[0].hora_llegada <= tiempo_actual:
                     persona = cola.desencolar()
                     persona.tiempo_espera = tiempo_actual - persona.hora_llegada
+                    total_tiempo_espera += persona.tiempo_espera
                     agente.tiempo_total_ocupado += persona.tiempo_servicio
                     agente.disponible_desde = tiempo_actual + persona.tiempo_servicio
-                    print(f"Atendiendo a ID Persona: {persona.id_persona} por {agente.id_agente}")
+                    print(f"Atendiendo a Persona {persona.id_persona}: Por {agente.id_agente}")
         tiempo_actual += 1
+    
+    for agente in agentes:
+        tiempo_total_ocupado = agente.tiempo_total_ocupado
+        promedio_ocupacion = (tiempo_total_ocupado / (N * 28800)) * 100 #Arreglar valores de tiempo espera total y %tiempo ocupado
+        promedio_espera = total_tiempo_espera / M
+        
+        print(f'% Tiempo ocupado {agente.id_agente}: {promedio_ocupacion}')
+    print(f'Tiempo promedio de espera: {promedio_espera}')
+    
 
-    # Print final states
     print("\nEstado Final de la Cola:")
     print(cola)
     for agente in agentes:
         print(agente)
+
+    
 
 def main():
     M = int(input("Ingrese la cantidad de personas: "))
