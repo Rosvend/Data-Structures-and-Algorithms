@@ -1,89 +1,68 @@
 import random
-import datetime
-
 
 class Persona:
-    def __init__(self, id_persona, tiempo_llegada, tiempo_espera):
+    def __init__(self, id_persona, hora_llegada, tiempo_servicio):
         self.id_persona = id_persona
-        self.tiempo_llegada = tiempo_llegada
-        self.tiempo_servicio = random.randint(300, 3600)  # tiempo_servicio
-        self.tiempo_espera = tiempo_espera
+        self.hora_llegada = hora_llegada
+        self.tiempo_servicio = tiempo_servicio
+        self.tiempo_espera = 0
 
     def __str__(self):
-        return f"Persona {self.id_persona}: Llegada={self.tiempo_llegada}s, Servicio={self.tiempo_servicio}s, Espera={self.tiempo_espera}s"
-
+        return f"ID Persona: {self.id_persona}, Hora de Llegada: {self.hora_llegada} sec, Tiempo de Servicio: {self.tiempo_servicio} sec, Tiempo de Espera: {self.tiempo_espera} sec"
 
 class Agente:
-    def __init__(self):
-        self.tiempo_ocupado = 0
+    def __init__(self, id_agente):
+        self.id_agente = id_agente
+        self.tiempo_total_ocupado = 0
+        self.disponible_desde = 0
 
     def __str__(self):
-        return f"Agente: Tiempo Ocupado={self.tiempo_ocupado}s"
+        return f"ID Agente: {self.id_agente}, Tiempo Total Ocupado: {self.tiempo_total_ocupado} sec"
 
-
-class Fila:
+class Cola:
     def __init__(self):
         self.personas = []
 
-    def agregar_persona(self, persona):
+    def encolar(self, persona):
         self.personas.append(persona)
 
     def desencolar(self):
         return self.personas.pop(0) if self.personas else None
 
-    def actualizar_tiempos_espera(self, tiempo_pasado: datetime.timedelta):
-        for persona in self.personas:
-            persona.tiempo_espera += tiempo_pasado
+    def esta_vacia(self):
+        return len(self.personas) == 0
 
-    def siguiente_persona(self):
-        if self.personas:
-            return self.personas.pop(0)
-        else:
-            return None
+    def __str__(self):
+        return "\n".join(str(persona) for persona in self.personas)
 
+def simular(M, N):
+    personas = [Persona(i + 1, random.randint(0, 28800), random.randint(300, 3601)) for i in range(M)]
+    agentes = [Agente(f'A{i + 1}') for i in range(N)]
+    cola = Cola()
+    for persona in sorted(personas, key=lambda x: x.hora_llegada):
+        cola.encolar(persona)
+    
+    tiempo_actual = 0
+    while tiempo_actual < 28800 or not cola.esta_vacia():
+        for agente in agentes:
+            if agente.disponible_desde <= tiempo_actual and not cola.esta_vacia():
+                if cola.personas[0].hora_llegada <= tiempo_actual:
+                    persona = cola.desencolar()
+                    persona.tiempo_espera = tiempo_actual - persona.hora_llegada
+                    agente.tiempo_total_ocupado += persona.tiempo_servicio
+                    agente.disponible_desde = tiempo_actual + persona.tiempo_servicio
+                    print(f"Atendiendo a ID Persona: {persona.id_persona} por {agente.id_agente}")
+        tiempo_actual += 1
 
-class simulacion:
-    def __init__(self):
-        self.personas = []
-        self.agentes = []
-        self.fila = Fila()
+    # Print final states
+    print("\nEstado Final de la Cola:")
+    print(cola)
+    for agente in agentes:
+        print(agente)
 
-    def inicializar_personas(self, M):
-        for i in range(M):
-            tiempo_llegada = random.randint(0, 28800)
-            persona = Persona(i + 1, tiempo_llegada)
-            self.personas.append(persona)
-            self.fila.agregar_persona(persona)
+def main():
+    M = int(input("Ingrese la cantidad de personas: "))
+    N = int(input("Ingrese la cantidad de agentes: "))
+    simular(M, N)
 
-    def inicializar_agentes(self, N):
-        for _ in range(N):
-            agente = Agente()
-            self.agentes.append(agente)
-
-    def core_simulacion(self):
-        tiempo_actual = 0
-        while tiempo_actual <= 28800:
-            print(f"Tiempo actual: {tiempo_actual}")
-            for agente in self.agentes:
-                if tiempo_actual >= agente.tiempo_ocupado:
-                    persona_atendida = self.fila.siguiente_persona()
-                    if persona_atendida:
-                        persona_atendida.tiempo_espera = tiempo_actual - persona_atendida.tiempo_llegada
-                        agente.tiempo_ocupado = tiempo_actual + persona_atendida.tiempo_servicio
-                        print(f"Persona {persona_atendida.id_persona} atendida por Agente {agente}")
-            tiempo_actual += 1
-
-    def obtener_resultados(self):
-        tiempo_total_ocupado = sum(agente.tiempo_ocupado for agente in self.agentes)
-        tiempo_promedio_espera = sum(persona.tiempo_espera for persona in self.personas) / len(self.personas)
-        return tiempo_total_ocupado, tiempo_promedio_espera
-
-
-# Test
-simulacion = simulacion()
-simulacion.inicializar_personas(10)
-simulacion.inicializar_agentes(2)
-simulacion.core_simulacion()
-tiempo_total_ocupado, tiempo_promedio_espera = simulacion.obtener_resultados()
-print(f"Tiempo total ocupado por los agentes: {tiempo_total_ocupado}s")
-print(f"Tiempo promedio de espera en la fila: {tiempo_promedio_espera}s")
+main()
