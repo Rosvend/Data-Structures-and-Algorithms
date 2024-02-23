@@ -1,6 +1,6 @@
 import math
-from taller1 import Persona
-from taller1 import taller1
+from Persona import Persona
+from SimuladorFila import SimuladorFila
 
 def igualdadDoubles(a:float, b:float) -> bool:
       return math.fabs(a-b)<1E-10
