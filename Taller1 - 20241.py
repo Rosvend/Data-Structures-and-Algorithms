@@ -72,23 +72,18 @@ def simular(M, N): #Arreglar que cada agente solo puede atender una persona
     print(f'Tiempo ocupado de agentes: {promedio_ocupacion:.2f}%')
     for agente in agentes:
         print(agente)
+    
+    return promedio_ocupacion, promedio_espera
 
     
 def optimizar_agentes(M):
     N = 1
-    while True:
+    while N <= M:
         promedio_ocupacion, promedio_espera = simular(M, N)
-        print(f"Testing with {N} agents: Occupancy = {promedio_ocupacion}%, Average Wait = {promedio_espera} seconds")
-        if promedio_ocupacion < 50: 
-            N-=1
-            if promedio_ocupacion <50 and promedio_espera < 60:
-                break
-                
-        elif promedio_ocupacion > 50:
-            N+=1
-            if promedio_ocupacion > 50 and promedio_espera < 60:
-                break
-
+        print(f"Probando con {N} agentes: Promedio tiempo ocupado = {promedio_ocupacion}%, Tiempo de espera promedio = {promedio_espera} segundos")
+        if promedio_ocupacion >50 and promedio_espera < 60:
+            break
+        N+=1
     return N, promedio_ocupacion, promedio_espera
 
 
