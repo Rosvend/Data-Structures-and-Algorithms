@@ -55,7 +55,7 @@ def simular(M, N): #Arreglar que cada agente solo puede atender una persona
                     total_tiempo_espera += persona.tiempo_espera
                     agente.tiempo_total_ocupado += persona.tiempo_servicio
                     agente.disponible_desde = tiempo_actual + persona.tiempo_servicio
-                    print(f"Atendiendo a Persona {persona.id_persona} con tiempo de llegada {persona.hora_llegada}: Por {agente.id_agente}")
+                    print(f"Atendiendo a Persona {persona.id_persona} con tiempo de llegada {persona.hora_llegada} y tiempo de servicio {persona.tiempo_servicio}: Por {agente.id_agente}")
         tiempo_actual += 1
     
     for agente in agentes:
@@ -76,15 +76,21 @@ def simular(M, N): #Arreglar que cada agente solo puede atender una persona
     return promedio_ocupacion, promedio_espera
 
     
-def optimizar_agentes(M):
-    N = 1
-    while N <= M:
+def optimizar_agentes():
+    M = int(input('Por favor indique el numero de personas para el cual desea optimizar el numero de agentes: '))
+    N=M
+    while True:
         promedio_ocupacion, promedio_espera = simular(M, N)
         print(f"Probando con {N} agentes: Promedio tiempo ocupado = {promedio_ocupacion}%, Tiempo de espera promedio = {promedio_espera} segundos")
-        if promedio_ocupacion >50 and promedio_espera < 60:
+      
+        if promedio_espera <= 60 and promedio_ocupacion >50:
+            print(f"El numero optimo de agentes es : {N}, Tiempo ocupado promedio: {promedio_ocupacion}%, Tiempo espera promedio: {promedio_espera} segundos")
             break
-        N+=1
-    return N, promedio_ocupacion, promedio_espera
+        else:
+            N -= 1
+            if N <= 0:
+                print("No se pudo encontrar un numero optimo de agentes")
+                break
 
 
     
@@ -93,5 +99,5 @@ def main():
     M = int(input("Ingrese la cantidad de personas: "))
     N = int(input("Ingrese la cantidad de agentes: "))
     simular(M, N)
-    optimizar_agentes(M)
+    optimizar_agentes()
 main()
