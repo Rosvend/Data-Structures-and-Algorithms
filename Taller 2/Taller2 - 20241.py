@@ -65,3 +65,4 @@ for i in range(M):
     y_coordinate = float(input('Ingrese la coordenada Y de la estación: '))
     station = Station(name, distance, x_coordinate, y_coordinate)
     stations.append(station)
+
