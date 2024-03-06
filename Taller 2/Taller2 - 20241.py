@@ -1,4 +1,7 @@
-import random
+from random import randint
+from math import sqrt
+
+
 class Person:
     """
     Implementacion ADT Persona
@@ -23,6 +26,9 @@ class Station:
         
 
 def taller2():
+    """
+    Funcion para iniciar el programa
+    """
     people = []
     stations = []
     
@@ -46,10 +52,13 @@ def taller2():
         stations.append(station)
 
 def assign_stations():
+    """
+    Funcion biblioteca que asigna la estacion mas cercana a cada persona
+    """
     for person in people:
         min_distance = float('inf')
         for station in stations:
-            distance = ((person.x_coordinate - station.x_coordinate) ** 2 + (person.y_coordinate - station.y_coordinate) ** 2) ** 0.5
+            distance = sqrt((person.x_coordinate - station.x_coordinate) ** 2 + (person.y_coordinate - station.y_coordinate) ** 2)
             if distance < min_distance:
                 min_distance = distance
                 person.station = station
