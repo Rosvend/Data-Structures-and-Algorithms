@@ -39,14 +39,14 @@ def taller2():
     
     for i in range(N):
         person_id = input('Ingrese el ID de la persona: ')
-        x_coordinate = randint(0, 10000)
+        x_coordinate = randint(0, 10000) #Se asignan coordenadas aleatorias para X y Y entre 0 y 10000 metros el plano
         y_coordinate = randint(0, 10000)
         person = Person(person_id, x_coordinate, y_coordinate)
         people.append(person)
 
     for i in range(M):
         name = input('Ingrese el nombre de la estación: ')
-        x_coordinate = randint(0, 10000)
+        x_coordinate = randint(0, 10000) #Se asignan coordenadas aleatorias X y Y entre 0 y 10000 para las estaciones
         y_coordinate = randint(0, 10000)
         station = Station(name, distance, x_coordinate, y_coordinate)
         stations.append(station)
@@ -61,7 +61,7 @@ def asignarEstaciones():
             distance = sqrt((person.x_coordinate - station.x_coordinate) ** 2 + (person.y_coordinate - station.y_coordinate) ** 2) #Distancia euclidiana entre 2 puntos
             if distance < min_distance:
                 min_distance = distance
-                person.station = station
+                person.station = station #Se verifica que sea la distancia mas corta y se le asigna la estacion a la persona
 
 def medirTiempo(N,M,k):
     """Calcular tiempo promedio por cada vez que se corre el programa
