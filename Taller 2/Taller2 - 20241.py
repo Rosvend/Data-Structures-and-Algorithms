@@ -63,5 +63,20 @@ def assign_stations():
                 min_distance = distance
                 person.station = station
 
+def stimate_time(N,M,k):
+    """Calcular tiempo promedio por cada vez que se corre el programa
+
+    Args:
+        N (list): Numero de personas
+        M (list): Numero de estaciones
+        k (int): Numero de veces que se corre el programa
+    """
+    time = 0
+    for i in range(k):
+        taller2 =()
+        assign_stations()
+        time += (N * M)
+
+
 taller2()
 assign_stations()
