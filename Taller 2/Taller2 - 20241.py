@@ -56,11 +56,12 @@ def assign_stations():
     Funcion biblioteca que asigna la estacion mas cercana a cada persona
     """
     for person in people:
-        min_distance = float('inf')
+        min_distance = float('inf') #Numero infinito
         for station in stations:
-            distance = sqrt((person.x_coordinate - station.x_coordinate) ** 2 + (person.y_coordinate - station.y_coordinate) ** 2)
+            distance = sqrt((person.x_coordinate - station.x_coordinate) ** 2 + (person.y_coordinate - station.y_coordinate) ** 2) #Distancia euclidiana entre 2 puntos
             if distance < min_distance:
                 min_distance = distance
                 person.station = station
 
 taller2()
+assign_stations()
