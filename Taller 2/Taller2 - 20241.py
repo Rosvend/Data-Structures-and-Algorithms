@@ -51,7 +51,7 @@ def taller2():
         station = Station(name, distance, x_coordinate, y_coordinate)
         stations.append(station)
 
-def assign_stations():
+def asignarEstaciones():
     """
     Funcion biblioteca que asigna la estacion mas cercana a cada persona
     """
@@ -63,7 +63,7 @@ def assign_stations():
                 min_distance = distance
                 person.station = station
 
-def stimate_time(N,M,k):
+def medirTiempo(N,M,k):
     """Calcular tiempo promedio por cada vez que se corre el programa
 
     Args:
@@ -74,9 +74,9 @@ def stimate_time(N,M,k):
     time = 0
     for i in range(k):
         taller2 =()
-        assign_stations()
+        asignarEstaciones()
         time += (N * M)
 
 
 taller2()
-assign_stations()
+asignarEstaciones()
