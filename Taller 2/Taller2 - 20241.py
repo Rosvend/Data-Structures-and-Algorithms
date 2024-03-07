@@ -53,6 +53,30 @@ def taller2():
     
     return people, stations
 
+
+def generar_adts(N,M):
+    """
+    Funcion para crear personas y estaciones sin preguntar al usuario (solo se usa en @medirTiempo)
+    """
+    people = []
+    stations = []
+    
+    for i in range(N):
+        person_id = f'Person_{i}'
+        x_coordinate = randint(0, 10000) #Se asignan coordenadas aleatorias para X y Y entre 0 y 10000 metros el plano
+        y_coordinate = randint(0, 10000)
+        person = Person(person_id, x_coordinate, y_coordinate)
+        people.append(person)
+
+    for i in range(M):
+        name = f'Station_{i}'
+        x_coordinate = randint(0, 10000) #Se asignan coordenadas aleatorias X y Y entre 0 y 10000 para las estaciones
+        y_coordinate = randint(0, 10000)
+        station = Station(name, x_coordinate, y_coordinate)
+        stations.append(station)
+    
+    return people, stations
+
 def asignarEstaciones(people,stations):
     """
     Funcion biblioteca que asigna la estacion mas cercana a cada persona
@@ -74,8 +98,9 @@ def medirTiempo(N,M,k):
         k (int): Numero de veces que se corre el programa
     """
     tiempo_total = 0
-    for _ in range(k):
-        people, stations = taller2() #Revisar esta parte
+    people, stations = generar_adts(N,M)
+
+    for i in range(k):
         start_time = time.time()
         asignarEstaciones(people,stations)
         end_time = time.time()
@@ -84,4 +109,4 @@ def medirTiempo(N,M,k):
     print(f'Tiempo promedio para N = {N} y M = {M} es {tiempo_promedio} segundos')
 
 
-medirTiempo(10,10,10)
+medirTiempo(100,100,100)
