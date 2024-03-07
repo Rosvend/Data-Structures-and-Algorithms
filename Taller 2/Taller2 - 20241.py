@@ -57,6 +57,10 @@ def taller2():
 def generar_adts(N,M):
     """
     Funcion para crear personas y estaciones sin preguntar al usuario (solo se usa en @medirTiempo)
+    
+    Args:
+        N (int): Numero de personas a crear 
+        M (int): Numero de estaciones a crear
     """
     people = []
     stations = []
@@ -98,7 +102,7 @@ def medirTiempo(N,M,k):
         k (int): Numero de veces que se corre el programa
     """
     tiempo_total = 0
-    people, stations = generar_adts(N,M)
+    people, stations = generar_adts(N,M) #Se crean instancias de personas y estaciones sin preguntar al usuario cada vez que se corre el programa
 
     for i in range(k):
         start_time = time.time()
