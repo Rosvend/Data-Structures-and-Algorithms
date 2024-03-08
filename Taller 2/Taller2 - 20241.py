@@ -56,7 +56,7 @@ def taller2():
 
 def generar_adts(N,M):
     """
-    Funcion para crear personas y estaciones sin preguntar al usuario (solo se usa en @medirTiempo)
+    Funcion para crear personas y estaciones sin preguntar al usuario (solo se usa en  funcion @medirTiempo)
     
     Args:
         N (int): Numero de personas a crear 
