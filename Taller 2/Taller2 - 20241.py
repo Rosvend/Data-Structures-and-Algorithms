@@ -4,7 +4,7 @@ import time
 
 class Person:
     """
-    Implementacion ADT Persona
+    Implementación ADT Persona
     """
     def __init__(self, person_id, x_coordinate, y_coordinate):
         self.station = None
@@ -15,7 +15,7 @@ class Person:
 
 class Station:
     """
-    Implementacion ADT Estacion
+    Implementación ADT Estación
     """
 
     def __init__(self, name, x_coordinate, y_coordinate):
@@ -27,7 +27,7 @@ class Station:
 
 def taller2():
     """
-    Funcion para iniciar el programa
+    Función para iniciar el programa
     """
     people = []
     stations = []
@@ -56,7 +56,7 @@ def taller2():
 
 def generar_adts(N,M):
     """
-    Funcion para crear personas y estaciones sin preguntar al usuario (solo se usa en  funcion @medirTiempo)
+    Función para crear personas y estaciones sin preguntar al usuario (solo se usa en  funcion @medirTiempo)
     
     Args:
         N (int): Numero de personas a crear 
@@ -83,7 +83,7 @@ def generar_adts(N,M):
 
 def asignarEstaciones(people,stations):
     """
-    Funcion biblioteca que asigna la estacion mas cercana a cada persona
+    Función biblioteca que asigna la estación mas cercana a cada persona
     """
     for person in people:
         min_distance = float('inf') #Numero infinito
@@ -91,7 +91,7 @@ def asignarEstaciones(people,stations):
             distance = sqrt((person.x_coordinate - station.x_coordinate) ** 2 + (person.y_coordinate - station.y_coordinate) ** 2) #Distancia euclidiana entre 2 puntos
             if distance < min_distance:
                 min_distance = distance
-                person.station = station #Se verifica que sea la distancia mas corta y se le asigna la estacion a la persona
+                person.station = station #Se verifica que sea la distancia mas corta y se le asigna la estación a la persona
 
 def medirTiempo(N,M,k):
     """Calcular tiempo promedio por cada vez que se corre el programa
