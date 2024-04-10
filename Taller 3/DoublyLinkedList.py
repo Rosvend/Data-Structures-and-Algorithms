@@ -73,27 +73,27 @@ class DoublyLinkedList:
                 current = current.next
             print()
     
-    def split_list(head):
+    def split_list(self,head):
         """Split the doubly linked list into two halves."""
-        if head is None:
-            return None, None
+        if head is None or head.next is None:
+            return head
     
         slow = head # slow is the head of the first half
-        fast = head # fast is the head of the second half
+        fast = head.next # fast is the head of the second half
     
-        while fast is not None and fast.next is not None: # find the middle of the doubly linked list
+        while fast and fast.next: # find the middle of the doubly linked list
             slow = slow.next # slow moves one node at a time
             fast = fast.next.next # fast moves two nodes at a time
     
         second_half = slow.next # second_half is the head of the second half
         slow.next = None # disconnect the first half from the second half
     
-        if second_half is not None: # if the second half is not None
+        if second_half: # if the second half is not None
             second_half.prev = None # disconnect the second half from the first half
 
-        return head, second_half
+        return second_half
 
-    def merge_halves(first_half, second_half):
+    def merge_halves(self,first_half, second_half):
         """Merge the two halves of the doubly linked list."""
         if first_half is None:
             return second_half
@@ -101,12 +101,24 @@ class DoublyLinkedList:
             return first_half
     
         # Encontrar el final de la primera mitad
-        current = first_half
-        while current.next is not None:
-            current = current.next
+        if first_half.data < second_half.data:
+            first_half.next = self.merge_halves(first_half.next, second_half)
+            first_half.next.prev = first_half
+            first_half.prev = None
+            return first_half
+        else:
+            second_half.next = self.merge_halves(first_half, second_half.next)
+            second_half.next.prev = second_half
+            second_half.prev = None
+            return second_half
     
-        # Conecta el final de la primera mitad con el inicio de la segunda mitad
-        current.next = second_half
-        second_half.prev = current
-    
-        return first_half
+    def merge_sort(self, head):
+        """Sort the doubly linked list using the merge sort algorithm."""
+        if head is None or head.next is None:
+            return head
+
+        second_half = self.split_list(head)
+        first_half_sorted = self.merge_sort(head)
+        second_half_sorted = self.merge_sort(second_half)
+
+        return self.merge_halves(first_half_sorted, second_half_sorted)
