@@ -1,3 +1,4 @@
+from random import shuffle
 class Node:
     """The Node class represents a node in a doubly linked list."""
     def __init__(self, data):
@@ -140,3 +141,19 @@ def merge_sort(dll):
     
     return DoublyLinkedList.merge_halves(sorted_first_half, sorted_second_half)
 
+names = ['Alice', 'Bob', 'Charlie', 'David', 'Eve', 'Fiona', 'George', 'Hannah', 'Ian', 'Julia', 'Kyle', 'Laura', 'Mike', 'Nora', 'Oliver']
+shuffle(names)
+
+# Insert shuffled names into a DoublyLinkedList
+dll = DoublyLinkedList()
+for name in names:
+    dll.insert_at_end(name)
+
+print("Original list:")
+dll.display()
+
+# Sort the list using merge_sort
+sorted_dll = merge_sort(dll)
+
+print("Sorted list:")
+sorted_dll.display()
