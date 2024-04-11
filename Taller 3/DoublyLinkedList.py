@@ -8,8 +8,8 @@ class Node:
 
 class DoublyLinkedList:
     """The DoublyLinkedList class represents a doubly linked list."""
-    def __init__(self):
-        self.head = None
+    def __init__(self,head=None):
+        self.head = head
 
     def is_empty(self):
         return self.head is None
@@ -131,11 +131,13 @@ def merge_sort(dll):
         return dll
 
     
-    second_half_head = split_list(dll.head)
-    second_half_dll = DoublyLinkedList(second_half_head)
+    second_half_head = DoublyLinkedList.split_list(dll.head)
+    first_half_dll = dll
+    second_half_dll = DoublyLinkedList()
+    second_half_dll.head = second_half_head
 
     
-    sorted_first_half = merge_sort(DoublyLinkedList(dll.head))
+    sorted_first_half = merge_sort(first_half_dll)
     sorted_second_half = merge_sort(second_half_dll)
 
     
@@ -144,7 +146,7 @@ def merge_sort(dll):
 names = ['Alice', 'Bob', 'Charlie', 'David', 'Eve', 'Fiona', 'George', 'Hannah', 'Ian', 'Julia', 'Kyle', 'Laura', 'Mike', 'Nora', 'Oliver']
 shuffle(names)
 
-# Insert shuffled names into a DoublyLinkedList
+
 dll = DoublyLinkedList()
 for name in names:
     dll.insert_at_end(name)
@@ -152,7 +154,6 @@ for name in names:
 print("Original list:")
 dll.display()
 
-# Sort the list using merge_sort
 sorted_dll = merge_sort(dll)
 
 print("Sorted list:")
