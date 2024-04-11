@@ -74,10 +74,10 @@ class DoublyLinkedList:
             print()
     
     @staticmethod
-    def split_list(self,head):
+    def split_list(head):
         """Split the doubly linked list into two halves."""
         if head is None or head.next is None:
-            return head
+            return None
     
         slow = head # slow is the head of the first half
         fast = head.next # fast is the head of the second half
@@ -94,33 +94,49 @@ class DoublyLinkedList:
 
         return second_half
 
+    
     @staticmethod
-    def merge_halves(self,first_half, second_half):
-        """Merge the two halves of the doubly linked list."""
-        if first_half is None:
-            return second_half
-        if second_half is None:
-            return first_half
-    
-        # Encontrar el final de la primera mitad
-        if first_half.data < second_half.data:
-            first_half.next = self.merge_halves(first_half.next, second_half)
-            first_half.next.prev = first_half
-            first_half.prev = None
-            return first_half
-        else:
-            second_half.next = self.merge_halves(first_half, second_half.next)
-            second_half.next.prev = second_half
-            second_half.prev = None
-            return second_half
-    
-def merge_sort(doubly_linked_list):
-    """Sort the doubly linked list using the merge sort algorithm."""
-    if doubly_linked_list is None or doubly_linked_list.head.next is None:
-        return doubly_linked_list.head
+    def merge_halves(list1, list2):
+        dummy = Node(0)  
+        tail = dummy
 
-    second_half = DoublyLinkedList.split_list(doubly_linked_list.head)
-    first_half_sorted = merge_sort(DoublyLinkedList(doubly_linked_list.head))
-    second_half_sorted = merge_sort(DoublyLinkedList(second_half))
+        
+        current1, current2 = list1.head, list2.head
 
-    return DoublyLinkedList(first_half_sorted, second_half_sorted)
+        # Merge process
+        while current1 and current2:
+            if current1.data < current2.data:
+                tail.next, current1.prev = current1, tail
+                current1 = current1.next
+            else:
+                tail.next, current2.prev = current2, tail
+                current2 = current2.next
+            tail = tail.next
+
+        
+        if current1:
+            tail.next, current1.prev = current1, tail
+        if current2:
+            tail.next, current2.prev = current2, tail
+
+        merged_list = DoublyLinkedList(dummy.next)
+        if merged_list.head:  
+            merged_list.head.prev = None
+
+        return merged_list
+    
+def merge_sort(dll):
+    if dll.head is None or dll.head.next is None:
+        return dll
+
+    
+    second_half_head = split_list(dll.head)
+    second_half_dll = DoublyLinkedList(second_half_head)
+
+    
+    sorted_first_half = merge_sort(DoublyLinkedList(dll.head))
+    sorted_second_half = merge_sort(second_half_dll)
+
+    
+    return DoublyLinkedList.merge_halves(sorted_first_half, sorted_second_half)
+
