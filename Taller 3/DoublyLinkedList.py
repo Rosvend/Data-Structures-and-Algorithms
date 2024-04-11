@@ -73,6 +73,7 @@ class DoublyLinkedList:
                 current = current.next
             print()
     
+    @staticmethod
     def split_list(self,head):
         """Split the doubly linked list into two halves."""
         if head is None or head.next is None:
@@ -93,6 +94,7 @@ class DoublyLinkedList:
 
         return second_half
 
+    @staticmethod
     def merge_halves(self,first_half, second_half):
         """Merge the two halves of the doubly linked list."""
         if first_half is None:
@@ -112,13 +114,13 @@ class DoublyLinkedList:
             second_half.prev = None
             return second_half
     
-    def merge_sort(self, head):
-        """Sort the doubly linked list using the merge sort algorithm."""
-        if head is None or head.next is None:
-            return head
+def merge_sort(doubly_linked_list):
+    """Sort the doubly linked list using the merge sort algorithm."""
+    if doubly_linked_list is None or doubly_linked_list.head.next is None:
+        return doubly_linked_list.head
 
-        second_half = self.split_list(head)
-        first_half_sorted = self.merge_sort(head)
-        second_half_sorted = self.merge_sort(second_half)
+    second_half = DoublyLinkedList.split_list(doubly_linked_list.head)
+    first_half_sorted = merge_sort(DoublyLinkedList(doubly_linked_list.head))
+    second_half_sorted = merge_sort(DoublyLinkedList(second_half))
 
-        return self.merge_halves(first_half_sorted, second_half_sorted)
+    return DoublyLinkedList(first_half_sorted, second_half_sorted)
