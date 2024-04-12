@@ -1,4 +1,7 @@
 from random import shuffle
+from faker import Faker
+
+
 class Node:
     """The Node class represents a node in a doubly linked list."""
     def __init__(self, data):
@@ -143,8 +146,10 @@ def merge_sort(dll):
     
     return DoublyLinkedList.merge_halves(sorted_first_half, sorted_second_half)
 
-names = ['Alice', 'Bob', 'Charlie', 'David', 'Eve', 'Fiona', 'George', 'Hannah', 'Ian', 'Julia', 'Kyle', 'Laura', 'Mike', 'Nora', 'Oliver']
-shuffle(names)
+
+fake = Faker('es_CO') # fake colombian data in spanish
+names = [fake.first_name() for _ in range(15)] #15 random first names, can be changed as needed
+shuffle(names) #shuffle the names for further randomization
 
 
 dll = DoublyLinkedList()
