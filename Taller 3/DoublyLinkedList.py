@@ -102,6 +102,15 @@ class DoublyLinkedList:
     
     @staticmethod
     def merge_halves(list1, list2):
+        """Merge two sorted doubly linked lists into a single sorted doubly linked list.
+
+        Args:
+            list1 : list of elements in the first half.
+            list2 : list of elements in the second half.
+
+        Returns:
+            DoublyLinkedList object: Merged doubly linked list.
+        """
         dummy = Node(0)  
         tail = dummy
 
@@ -131,6 +140,13 @@ class DoublyLinkedList:
         return merged_list
     
 def merge_sort(dll):
+    """Merge sort algorithm to sort a doubly linked list in ascending order.
+    Args:
+        dll (): DoublyLinkedList object to be sorted.
+
+    Returns:
+        _type_: DoublyLinkedList object: Sorted doubly linked list.
+    """
     if dll.head is None or dll.head.next is None:
         return dll
 
