@@ -148,31 +148,15 @@ def merge_sort(dll):
     return DoublyLinkedList.merge_halves(sorted_first_half, sorted_second_half)
 
 
-# fake = Faker('es_CO') # fake colombian data in spanish
-# names = [fake.first_name() for _ in range(15)] #15 random first names, can be changed as needed
-# shuffle(names) #shuffle the names for further randomization
-
-
-# dll = DoublyLinkedList()
-# for name in names:
-#     dll.insert_at_end(name)
-
-# print("Original list:")
-# dll.display()
-
-# sorted_dll = merge_sort(dll)
-
-# print("Sorted list:")
-# sorted_dll.display()
-
-
-def medirTiempo():
+def measure_time():
+    """Function to measure the time of execution of the merge sort algorithm.
+    """
     
     N = int(input('Please enter the number of names to sort:  '))
     M = int(input('Please enter the number of times to sort the names: '))
     
-    fake = Faker('es_CO') # fake colombian data in spanish
-    names = [fake.first_name() for _ in range(N)] #N random first names, can be changed as needed
+    fake = Faker('es_CO') # fake colombian data in spanish, can be changed as needed
+    names = [fake.first_name() for _ in range(N)] 
     shuffle(names) #shuffle the names for further randomization
 
 
