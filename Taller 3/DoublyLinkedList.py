@@ -181,4 +181,4 @@ def measure_time():
     print(f'Tiempo promedio de ejecución: {tiempo_promedio:.10f}')
 
 
-medirTiempo()
+measure_time()
