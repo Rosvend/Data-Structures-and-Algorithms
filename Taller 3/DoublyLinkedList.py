@@ -1,5 +1,6 @@
 from random import shuffle
 from faker import Faker
+import time
 
 
 class Node:
@@ -147,19 +148,53 @@ def merge_sort(dll):
     return DoublyLinkedList.merge_halves(sorted_first_half, sorted_second_half)
 
 
-fake = Faker('es_CO') # fake colombian data in spanish
-names = [fake.first_name() for _ in range(15)] #15 random first names, can be changed as needed
-shuffle(names) #shuffle the names for further randomization
+# fake = Faker('es_CO') # fake colombian data in spanish
+# names = [fake.first_name() for _ in range(15)] #15 random first names, can be changed as needed
+# shuffle(names) #shuffle the names for further randomization
 
 
-dll = DoublyLinkedList()
-for name in names:
-    dll.insert_at_end(name)
+# dll = DoublyLinkedList()
+# for name in names:
+#     dll.insert_at_end(name)
 
-print("Original list:")
-dll.display()
+# print("Original list:")
+# dll.display()
 
-sorted_dll = merge_sort(dll)
+# sorted_dll = merge_sort(dll)
 
-print("Sorted list:")
-sorted_dll.display()
+# print("Sorted list:")
+# sorted_dll.display()
+
+
+def medirTiempo():
+    
+    N = int(input('Please enter the number of names to sort:  '))
+    M = int(input('Please enter the number of times to sort the names: '))
+    
+    fake = Faker('es_CO') # fake colombian data in spanish
+    names = [fake.first_name() for _ in range(N)] #N random first names, can be changed as needed
+    shuffle(names) #shuffle the names for further randomization
+
+
+    dll = DoublyLinkedList()
+    for name in names:
+        dll.insert_at_end(name)
+
+    print("Original list:")
+    dll.display()
+
+
+    tiempo_total = 0
+    for i in range(M):
+        start_time = time.time()
+        sorted_dll = merge_sort(dll)
+        end_time = time.time()
+        tiempo_total += end_time - start_time
+    tiempo_promedio = tiempo_total / M
+
+    print("Sorted list:")
+    sorted_dll.display()
+    print(f'Tiempo promedio de ejecución: {tiempo_promedio:.10f}')
+
+
+medirTiempo()
