@@ -1,5 +1,3 @@
-import pandas as pd 
-
 class clustering:
     def __init__(self, data):
         self.data = data
