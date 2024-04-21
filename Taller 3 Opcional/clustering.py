@@ -1,3 +1,25 @@
+#Create a min priority queue
+class min_priority_queue:
+    def __init__(self):
+        self.queue = []
+    
+    def insert(self, value):
+        self.queue.append(value)
+        self.queue.sort()
+    
+    def extract_min(self):
+        return self.queue.pop(0)
+    
+    def is_empty(self):
+        return len(self.queue) == 0
+    
+    def size(self):
+        return len(self.queue)
+    
+    def min(self):
+        return self.queue[0]
+
+
 class clustering:
     def __init__(self, data):
         self.data = data
