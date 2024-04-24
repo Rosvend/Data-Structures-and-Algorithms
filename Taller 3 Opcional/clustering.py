@@ -78,12 +78,17 @@ class clustering:
 
 
     def randomtest(self):
-        points = [randomint() for _ in range(11)]
-        points.classify()
-        
+        points = [(randomint(0,100), randint(0,100)) for _ in range(10)]
+        classifications = [self.classify(point,k) for point in points]
+        return classifications
+    
+
+    
 
 
 def leer_puntos(filename):
+
+
     """Lee el archivo CSV"""
     points = []
     with open(filename, 'r', newline='', encoding='utf-8') as file:
@@ -93,3 +98,19 @@ def leer_puntos(filename):
             x,y = map(float,row[0].split(','))
             points.append((x,y))
     return points
+
+
+def main(filename):
+
+        D = int(input('Please enter your maximum distance threshold:  '))
+        points = leer_puntos(filename)
+        cl = clustering(points)
+        num_clusters = cl.cluster(D)
+        print(f'Number of clusters: {num_clusters} clusters')
+
+        classifications = cl.randomtest()
+        print(f'Classifications of 10 random points: {classifications}')
+
+
+file_path = r"C:\Users\royda\OneDrive\Documentos\Universidad\3. Tercer semestre\Estructuras de datos y algoritmos\Talleres\Taller 3 Opcional\datapoints-k=2-n=200.csv"
+main(file_path)
