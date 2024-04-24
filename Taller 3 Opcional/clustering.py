@@ -62,5 +62,6 @@ def leer_puntos(filename):
         reader = csv.reader(file)
         next(reader)  # Saltar el encabezado
         for row in reader:
-            puntos.append(row[0].strip())
-    return puntos
+            x,y = map(float,row[0].split(','))
+            points.append(x,y)
+    return points
