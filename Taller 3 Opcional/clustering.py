@@ -1,5 +1,7 @@
 import heapq as hq 
 import csv
+from math import sqrt
+import time
 
 class UnionFind:
     def __init__(self, n):
@@ -32,28 +34,33 @@ class UnionFind:
 class clustering:
     def __init__(self, data):
         self.data = data
-        self.clusters = []
+        self.uf = UnionFind(len(data))
     
-    def cluster(self, k):
-        self.clusters = []
+    def distance(self,x,y):
+        return sqrt(sum((x-y)**2 for x, y in zip(x,y)))
+    
+    def cluster(self,D):
+        start_time = time.time()
+        distances = []
         
-        for i in range(k):
-            self.clusters.append([])
+        for i in range(len(self.data)):
+            for j in range(i+1,len(self.data)):
+                dist = self.distance(self.data[i],self.data[j])
+                hq.heappush(distances,(dist,(i,j)))
         
-        for index, row in self.data.iterrows():
-            min_dist = float('inf')
-            cluster = -1
-            for i in range(k):
-                dist = self.euclidean_distance(row, self.centroids.loc[i])
-                if dist < min_dist:
-                    min_dist = dist
-                    cluster = i
-            self.clusters[cluster+1].append(index)
+        clusters = []
+        while distances and distances [0][0] <D:
+            _, (i,j) = hq.heappop(distances)
+            self.uf.union(i,j)
         
-        for i in range(k):
-            self.centroids.loc[i] = self.data.loc[self.clusters[i+1]].mean()
-        
-        return self.clusters, self.centroids
+        clusters = set(self.uf.find(i) for i in range(len(self.data)))
+
+        end_time = time.time()
+        total_time = end_time - start_time
+        print (f'Total time was {total_time:.6f} seconds')
+        return len(clusters)
+
+
 
 def leer_puntos(filename):
     """Lee el archivo CSV"""
@@ -63,5 +70,5 @@ def leer_puntos(filename):
         next(reader)  # Saltar el encabezado
         for row in reader:
             x,y = map(float,row[0].split(','))
-            points.append(x,y)
+            points.append((x,y))
     return points
