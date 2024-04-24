@@ -2,6 +2,7 @@ import heapq as hq
 import csv
 from math import sqrt
 import time
+from random import randint
 
 class UnionFind:
     def __init__(self, n):
@@ -59,7 +60,27 @@ class clustering:
         total_time = end_time - start_time
         print (f'Total time was {total_time:.6f} seconds')
         return len(clusters)
+    
+    def classify(self,p,k):
+        """Classify new points with nearest k neighbors
 
+        Args:
+            p (int): coordinate X of point to classify
+            k (int): coordinate Y of point to classify
+        """
+
+        distances = [(self.distance(p,point),i) for i, point in enumerate(self.data)]
+        kneighbors = sorted(distances)[:k]
+        clusters = [self.uf.find(i) for _, i in kneighbors]
+        most_common_cluster = Counter(clusters).most_common(1)[0][0]
+
+        return most_common_cluster
+
+
+    def randomtest(self):
+        points = [randomint() for _ in range(11)]
+        points.classify()
+        
 
 
 def leer_puntos(filename):
