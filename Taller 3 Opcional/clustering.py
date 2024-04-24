@@ -41,7 +41,7 @@ class clustering:
     def distance(self,x,y):
         return sqrt(sum((x-y)**2 for x, y in zip(x,y)))
     
-    def cluster(self,D):
+    def cluster(self,dmax):
         start_time = time.time()
         distances = []
         
@@ -51,7 +51,7 @@ class clustering:
                 hq.heappush(distances,(dist,(i,j)))
         
         clusters = []
-        while distances and distances [0][0] <D:
+        while distances and distances [0][0] <dmax:
             _, (i,j) = hq.heappop(distances)
             self.uf.union(i,j)
         
@@ -70,7 +70,6 @@ class clustering:
             k (int): number of neighbor
         """
 
-        k = int(input('Please enter number of neighbors:  '))
 
         distances = [(self.distance(p,point),i) for i, point in enumerate(self.data)]
         kneighbors = sorted(distances)[:k]
@@ -81,7 +80,9 @@ class clustering:
 
 
     def randomtest(self):
-        points = [(randint(0,100), randint(0,100)) for _ in range(10)]
+        k = int(input('Please enter number of neighbors:  '))
+
+        points = [(randint(-2,2), randint(-2,2)) for _ in range(10)]
         classifications = [self.classify(point,k) for point in points]
         return classifications
     
@@ -90,27 +91,28 @@ class clustering:
 
 
 def leer_puntos(filename):
-
-
-    """Lee el archivo CSV"""
+    """Read the CSV file and return a list of points."""
     points = []
     with open(filename, 'r', newline='', encoding='utf-8') as file:
         reader = csv.reader(file)
-        try:
-            for row in reader:
-                x,y = map(float,row[0].split(','))
-                points.append((x,y))
-        except ValueError:
-            print(f'Skip fila mala: {row}')
-    
+        for line_number, row in enumerate(reader, 1):  
+            try:
+                if len(row) == 2:  
+                    x, y = map(float, row) 
+                    points.append((x, y))
+                    print(f"Line {line_number}: Read point ({x}, {y})")
+                else:
+                    print(f"Line {line_number}: Incorrect number of columns")
+            except ValueError as e:
+                print(f"Line {line_number}: Error reading row {row} - {e}")
     return points
 
 def main(filename):
 
-        D = float(input('Please enter your maximum distance threshold:  '))
+        dmax = float(input('Please enter your maximum distance threshold:  '))
         points = leer_puntos(filename)
         cl = clustering(points)
-        num_clusters = cl.cluster(D)
+        num_clusters = cl.cluster(dmax)
         print(f'Number of clusters: {num_clusters} clusters')
 
         classifications = cl.randomtest()
