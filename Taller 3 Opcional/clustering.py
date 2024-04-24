@@ -94,12 +94,14 @@ def leer_puntos(filename):
     points = []
     with open(filename, 'r', newline='', encoding='utf-8') as file:
         reader = csv.reader(file)
-        next(reader)  # Saltar el encabezado
-        for row in reader:
-            x,y = map(float,row[0].split(','))
-            points.append((x,y))
+        try:
+            for row in reader:
+                x,y = map(float,row[0].split(','))
+                points.append((x,y))
+        except ValueError:
+            print(f'Skip fila mala: {row}')
+    
     return points
-
 
 def main(filename):
 
