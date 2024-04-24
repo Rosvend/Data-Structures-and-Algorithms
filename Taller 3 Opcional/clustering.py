@@ -3,6 +3,7 @@ import csv
 from math import sqrt
 import time
 from random import randint
+from collections import Counter
 
 class UnionFind:
     def __init__(self, n):
@@ -78,7 +79,7 @@ class clustering:
 
 
     def randomtest(self):
-        points = [(randomint(0,100), randint(0,100)) for _ in range(10)]
+        points = [(randint(0,100), randint(0,100)) for _ in range(10)]
         classifications = [self.classify(point,k) for point in points]
         return classifications
     
