@@ -66,9 +66,11 @@ class clustering:
         """Classify new points with nearest k neighbors
 
         Args:
-            p (int): coordinate X of point to classify
-            k (int): coordinate Y of point to classify
+            p (int): 2d point
+            k (int): number of neighbor
         """
+
+        k = int(input('Please enter number of neighbors:  '))
 
         distances = [(self.distance(p,point),i) for i, point in enumerate(self.data)]
         kneighbors = sorted(distances)[:k]
@@ -105,7 +107,7 @@ def leer_puntos(filename):
 
 def main(filename):
 
-        D = int(input('Please enter your maximum distance threshold:  '))
+        D = float(input('Please enter your maximum distance threshold:  '))
         points = leer_puntos(filename)
         cl = clustering(points)
         num_clusters = cl.cluster(D)
