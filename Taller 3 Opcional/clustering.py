@@ -1,4 +1,5 @@
 import heapq as hq 
+import csv
 
 class UnionFind:
     def __init__(self, n):
@@ -32,11 +33,9 @@ class clustering:
     def __init__(self, data):
         self.data = data
         self.clusters = []
-        self.centroids = []
     
     def cluster(self, k):
-        self.centroids = self.data.sample(n=k)
-        self.clusters = [self.centroids.index.tolist()]
+        self.clusters = []
         
         for i in range(k):
             self.clusters.append([])
@@ -55,3 +54,13 @@ class clustering:
             self.centroids.loc[i] = self.data.loc[self.clusters[i+1]].mean()
         
         return self.clusters, self.centroids
+
+def leer_puntos(filename):
+    """Lee el archivo CSV"""
+    points = []
+    with open(filename, 'r', newline='', encoding='utf-8') as file:
+        reader = csv.reader(file)
+        next(reader)  # Saltar el encabezado
+        for row in reader:
+            puntos.append(row[0].strip())
+    return puntos
