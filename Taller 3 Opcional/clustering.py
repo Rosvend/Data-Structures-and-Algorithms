@@ -1,8 +1,9 @@
-import heapq as hq 
+import heapq as hq
+import matplotlib.pyplot as plt
 import csv
 from math import sqrt
 import time
-from random import randint
+from random import uniform
 from collections import Counter
 
 class UnionFind:
@@ -70,7 +71,6 @@ class clustering:
             k (int): number of neighbor
         """
 
-
         distances = [(self.distance(p,point),i) for i, point in enumerate(self.data)]
         kneighbors = sorted(distances)[:k]
         clusters = [self.uf.find(i) for _, i in kneighbors]
@@ -78,27 +78,55 @@ class clustering:
 
         return most_common_cluster
 
-
-    def randomtest(self):
-        k = int(input('Please enter number of neighbors:  '))
-
-        points = [(randint(-2,2), randint(-2,2)) for _ in range(10)]
-        classifications = [self.classify(point,k) for point in points]
-        return classifications
+def graficarClusteres(cluster_ids, data):
+    unique_clusters = list(set(cluster_ids))
+    cluster_color_map = {cluster_id: idx for idx, cluster_id in enumerate(unique_clusters)}
+    colors = plt.cm.get_cmap("hsv", len(unique_clusters))
     
-
+    for idx, point in enumerate(data):
+        color_idx = cluster_color_map[cluster_ids[idx]]
+        plt.scatter(point[0], point[1], color=colors(color_idx))
     
+    plt.title("Visualization of Clusters")
+    plt.xlabel("X Coordinate")
+    plt.ylabel("Y Coordinate")
+    plt.show()
 
+def randomTest(cl, k=5):
+    random_points = [(uniform(-2, 2), uniform(-2, 2)) for _ in range(10)]
+    print("Random Points:", random_points)  
+    
+    for point in random_points:
+        classifications = cl.classify(point, k)
+        
+        distances = sorted([(cl.distance(point, data_point), i) for i, data_point in enumerate(cl.data)])
+        kneighbors = [cl.uf.find(i) for _, i in distances[:k]]
+        print(f"K-nearest neighbors for point ({point[0]:.3f}, {point[1]:.3f}): {kneighbors}")
+        print(f"Point ({point[0]:.3f}, {point[1]:.3f}) is classified into cluster {classifications}")
+        print()
+
+
+
+def main(filename):
+    dmax = float(input('Please enter your maximum distance threshold: '))
+    points = leer_puntos(filename)
+    cl = clustering(points)
+    num_clusters = cl.cluster(dmax)
+    print(f'Number of clusters: {num_clusters} clusters')
+
+    cluster_ids = [cl.uf.find(i) for i in range(len(points))]
+    graficarClusteres(cluster_ids, points)
+
+    randomTest(cl)
 
 def leer_puntos(filename):
-    """Read the CSV file and return a list of points."""
     points = []
     with open(filename, 'r', newline='', encoding='utf-8') as file:
         reader = csv.reader(file)
-        for line_number, row in enumerate(reader, 1):  
+        for line_number, row in enumerate(reader, 1):
             try:
-                if len(row) == 2:  
-                    x, y = map(float, row) 
+                if len(row) == 2:
+                    x, y = map(float, row)
                     points.append((x, y))
                     print(f"Line {line_number}: Read point ({x}, {y})")
                 else:
@@ -107,17 +135,8 @@ def leer_puntos(filename):
                 print(f"Line {line_number}: Error reading row {row} - {e}")
     return points
 
-def main(filename):
-
-        dmax = float(input('Please enter your maximum distance threshold:  '))
-        points = leer_puntos(filename)
-        cl = clustering(points)
-        num_clusters = cl.cluster(dmax)
-        print(f'Number of clusters: {num_clusters} clusters')
-
-        classifications = cl.randomtest()
-        print(f'Classifications of 10 random points: {classifications}')
-
-
 file_path = r"C:\Users\royda\OneDrive\Documentos\Universidad\3. Tercer semestre\Estructuras de datos y algoritmos\Talleres\Taller 3 Opcional\datapoints-k=2-n=200.csv"
 main(file_path)
+
+
+
