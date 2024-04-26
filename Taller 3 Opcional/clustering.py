@@ -5,6 +5,7 @@ from math import sqrt
 import time
 from random import uniform
 from collections import Counter
+import numpy as np
 
 class UnionFind:
     def __init__(self, n):
@@ -78,14 +79,23 @@ class clustering:
 
         return most_common_cluster
 
+
 def graficarClusteres(cluster_ids, data):
     unique_clusters = list(set(cluster_ids))
-    cluster_color_map = {cluster_id: idx for idx, cluster_id in enumerate(unique_clusters)}
-    colors = plt.cm.get_cmap("hsv", len(unique_clusters))
+    n_colors = len(unique_clusters)
+    
+    colors = plt.cm.get_cmap('nipy_spectral', n_colors)
+    
+    cluster_color_map = dict(zip(unique_clusters, range(n_colors)))
     
     for idx, point in enumerate(data):
-        color_idx = cluster_color_map[cluster_ids[idx]]
+        cluster_id = cluster_ids[idx]
+        color_idx = cluster_color_map[cluster_id]
         plt.scatter(point[0], point[1], color=colors(color_idx))
+    
+    handles, labels = plt.gca().get_legend_handles_labels()
+    unique = [(h, l) for i, (h, l) in enumerate(zip(handles, labels)) if l not in labels[:i]]
+    plt.legend(*zip(*unique))
     
     plt.title("Visualization of Clusters")
     plt.xlabel("X Coordinate")
@@ -135,8 +145,5 @@ def leer_puntos(filename):
                 print(f"Line {line_number}: Error reading row {row} - {e}")
     return points
 
-file_path = r"C:\Users\royda\OneDrive\Documentos\Universidad\3. Tercer semestre\Estructuras de datos y algoritmos\Talleres\Taller 3 Opcional\datapoints-k=2-n=200.csv"
+file_path = r"C:\Users\royda\OneDrive\Documentos\Universidad\3. Tercer semestre\Estructuras de datos y algoritmos\Talleres\Taller 3 Opcional\datapoints-1000.csv"
 main(file_path)
-
-
-
