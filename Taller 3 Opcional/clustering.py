@@ -84,7 +84,7 @@ def graficarClusteres(cluster_ids, data):
     unique_clusters = list(set(cluster_ids))
     n_colors = len(unique_clusters)
     
-    colors = plt.cm.get_cmap('nipy_spectral', n_colors)
+    colors = plt.cm.get_cmap('viridis', n_colors)
     
     cluster_color_map = dict(zip(unique_clusters, range(n_colors)))
     
@@ -118,7 +118,7 @@ def randomTest(cl, k=5):
 
 class Taller3Opcional:
 
-    
+    @staticmethod
     def leer_puntos(filename):
         points = []
         with open(filename, 'r', newline='', encoding='utf-8') as file:
@@ -135,10 +135,10 @@ class Taller3Opcional:
                     print(f"Line {line_number}: Error reading row {row} - {e}")
         return points
 
-
+    @staticmethod
     def main(filename):
         dmax = float(input('Please enter your maximum distance threshold: '))
-        points = leer_puntos(filename)
+        points = Taller3Opcional.leer_puntos(filename)
         cl = clustering(points)
         num_clusters = cl.cluster(dmax)
         print(f'Number of clusters: {num_clusters} clusters')
