@@ -116,34 +116,38 @@ def randomTest(cl, k=5):
         print()
 
 
+class Taller3Opcional:
 
-def main(filename):
-    dmax = float(input('Please enter your maximum distance threshold: '))
-    points = leer_puntos(filename)
-    cl = clustering(points)
-    num_clusters = cl.cluster(dmax)
-    print(f'Number of clusters: {num_clusters} clusters')
+    
+    def leer_puntos(filename):
+        points = []
+        with open(filename, 'r', newline='', encoding='utf-8') as file:
+            reader = csv.reader(file)
+            for line_number, row in enumerate(reader, 1):
+                try:
+                    if len(row) == 2:
+                        x, y = map(float, row)
+                        points.append((x, y))
+                        print(f"Line {line_number}: Read point ({x}, {y})")
+                    else:
+                        print(f"Line {line_number}: Incorrect number of columns")
+                except ValueError as e:
+                    print(f"Line {line_number}: Error reading row {row} - {e}")
+        return points
 
-    cluster_ids = [cl.uf.find(i) for i in range(len(points))]
-    graficarClusteres(cluster_ids, points)
 
-    randomTest(cl)
+    def main(filename):
+        dmax = float(input('Please enter your maximum distance threshold: '))
+        points = leer_puntos(filename)
+        cl = clustering(points)
+        num_clusters = cl.cluster(dmax)
+        print(f'Number of clusters: {num_clusters} clusters')
 
-def leer_puntos(filename):
-    points = []
-    with open(filename, 'r', newline='', encoding='utf-8') as file:
-        reader = csv.reader(file)
-        for line_number, row in enumerate(reader, 1):
-            try:
-                if len(row) == 2:
-                    x, y = map(float, row)
-                    points.append((x, y))
-                    print(f"Line {line_number}: Read point ({x}, {y})")
-                else:
-                    print(f"Line {line_number}: Incorrect number of columns")
-            except ValueError as e:
-                print(f"Line {line_number}: Error reading row {row} - {e}")
-    return points
+        cluster_ids = [cl.uf.find(i) for i in range(len(points))]
+        graficarClusteres(cluster_ids, points)
 
-file_path = r"C:\Users\royda\OneDrive\Documentos\Universidad\3. Tercer semestre\Estructuras de datos y algoritmos\Talleres\Taller 3 Opcional\datapoints-1000.csv"
-main(file_path)
+        randomTest(cl)
+
+
+Taller3Opcional.main(r"C:\Users\royda\OneDrive\Documentos\Universidad\3. Tercer semestre\Estructuras de datos y algoritmos\Talleres\Taller 3 Opcional\datapoints-1000.csv")
+
