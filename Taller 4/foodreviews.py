@@ -27,7 +27,7 @@ def read_file(filename):
                 reviews.append(review)
         return reviews
     except FileNotFoundError:
-        print("The file was not found.")
+        print("The file was not found.") #hola
     except Exception as e:
         print(f"An error occurred: {e}")
 
