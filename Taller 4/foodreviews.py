@@ -61,3 +61,25 @@ if reviews:
 
 #obtener los Top-M productos a partir de la tabla de símbolos de puntajes
 listarTopM(result, 5)
+#Diccionario por fechas
+def reviewsPorFecha(reviews: List[Review]) -> Dict[str, List[Review]]:
+    reviews_por_fecha = defaultdict(list)
+    for review in reviews:
+        fecha = review.get_time()
+        reviews_por_fecha[fecha].append(review)
+    return reviews_por_fecha
+def listarTopMPorRango(reviews: List[Review], fechaIni: datetime, fechaFin: datetime, M: int) -> None:
+    # Agrupar las revisiones por fecha
+    reviews_por_fecha = reviewsPorFecha(reviews)
+    
+    # Filtrar las revisiones dentro del rango de fechas especificado
+    reviews_en_rango = [review for review in reviews if fechaIni <= datetime.utcfromtimestamp(review.time) <= fechaFin]
+    
+    # Calcular los puntajes totales dentro del rango de fechas
+    puntajes_en_rango = puntajeTotal(reviews_en_rango)
+    
+    # Obtener los Top-M productos dentro del rango de fechas
+    listarTopM(puntajes_en_rango, M)
+fecha_inicio = datetime.strptime("01/01/2014", "%m/%d/%Y")
+fecha_fin = datetime.strptime("03/31/2014", "%m/%d/%Y")
+listarTopMPorRango(reviews, fecha_inicio, fecha_fin, 5)
