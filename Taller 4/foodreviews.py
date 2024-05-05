@@ -80,6 +80,6 @@ def listarTopMPorRango(reviews: List[Review], fechaIni: datetime, fechaFin: date
     
     # Obtener los Top-M productos dentro del rango de fechas
     listarTopM(puntajes_en_rango, M)
-fecha_inicio = datetime.strptime("01/01/2014", "%m/%d/%Y")
-fecha_fin = datetime.strptime("03/31/2014", "%m/%d/%Y")
+fecha_inicio = datetime.strptime("01/01/2024", "%m/%d/%Y")
+fecha_fin = datetime.strptime("03/31/2024", "%m/%d/%Y")
 listarTopMPorRango(reviews, fecha_inicio, fecha_fin, 5)
