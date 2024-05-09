@@ -28,11 +28,12 @@ def read_file(filename):
             reviews = []
             next(reader)
             for row in reader:
-                review = Review(*row)
-                reviews.append(review)
+                if row:
+                    review = Review(*row)
+                    reviews.append(review)
         return reviews
     except FileNotFoundError:
-        print("The file was not found.") #hola
+        print("The file was not found.") 
     except Exception as e:
         print(f"An error occurred: {e}")
 
@@ -75,7 +76,7 @@ def listarTopMPorRango(reviews: List[Review], fechaIni: datetime, fechaFin: date
     # Obtener los Top-M productos dentro del rango de fechas
     listarTopM(puntajes_en_rango, M)
 
-reviews = read_file(r"C:\Users\royda\OneDrive\Documentos\Universidad\3. Tercer semestre\Estructuras de datos y algoritmos\Talleres\Taller 4\Taller4-202410-foodReviews.pdf")
+reviews = read_file(r"C:\Users\royda\OneDrive\Documentos\Universidad\3. Tercer semestre\Estructuras de datos y algoritmos\Talleres\Taller 4\Reviews.csv")
 
 #puntuación total de cada producto como la suma de los puntajes (score) del producto
 if reviews:
