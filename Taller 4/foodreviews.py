@@ -2,6 +2,8 @@ import csv
 from collections import defaultdict
 from datetime import datetime
 from typing import List, Dict
+
+
 class Review:
     def __init__(self, id,userID,productID,profileName,helpfulness_numerator,helpfulness_denominator,score,time, summary, text):
         self.id = id
@@ -26,18 +28,22 @@ def read_file(filename):
             reviews = []
             next(reader)
             for row in reader:
-                review = Review(*row)
-                reviews.append(review)
+                if row:
+                    review = Review(*row)
+                    reviews.append(review)
         return reviews
     except FileNotFoundError:
-        print("The file was not found.") #hola
+        print("The file was not found.") 
     except Exception as e:
         print(f"An error occurred: {e}")
+
+
 def puntajeTotal(reviews: List[Review]) -> Dict[str, int]:
     scores = defaultdict(int)
     for review in reviews:
         scores[review.productID] += review.score
     return dict(scores)
+
 
 def listarTopM(puntajes: Dict[str, int], M: int) -> None:
     sorted_puntajes = sorted(puntajes.items(), key=lambda x: x[1], reverse=True)
@@ -46,6 +52,8 @@ def listarTopM(puntajes: Dict[str, int], M: int) -> None:
     
     for product_id, score in top_m:
         print(f"Product ID: {product_id}, Total Score: {score}")
+
+
 #Diccionario por fechas
 def reviewsPorFecha(reviews: List[Review]) -> Dict[str, List[Review]]:
     reviews_por_fecha = defaultdict(list)
@@ -53,6 +61,8 @@ def reviewsPorFecha(reviews: List[Review]) -> Dict[str, List[Review]]:
         fecha = review.get_time()
         reviews_por_fecha[fecha].append(review)
     return reviews_por_fecha
+
+
 def listarTopMPorRango(reviews: List[Review], fechaIni: datetime, fechaFin: datetime, M: int) -> None:
     # Agrupar las revisiones por fecha
     reviews_por_fecha = reviewsPorFecha(reviews)
@@ -66,14 +76,15 @@ def listarTopMPorRango(reviews: List[Review], fechaIni: datetime, fechaFin: date
     # Obtener los Top-M productos dentro del rango de fechas
     listarTopM(puntajes_en_rango, M)
 
-reviews = read_file(r"C:\Users\USUARIO\Downloads\Reviews.txt")
+reviews = read_file(r"C:\Users\royda\OneDrive\Documentos\Universidad\3. Tercer semestre\Estructuras de datos y algoritmos\Talleres\Taller 4\Reviews.csv")
+
 #puntuación total de cada producto como la suma de los puntajes (score) del producto
 if reviews:
     result = puntajeTotal(reviews)
     print(result)
-
-#obtener los Top-M productos a partir de la tabla de símbolos de puntajes
+    #obtener los Top-M productos a partir de la tabla de símbolos de puntajes
     listarTopM(result, 5)
+
 fecha_inicio = datetime.strptime("10/31/1999", "%m/%d/%Y")
 fecha_fin = datetime.strptime("10/31/2012", "%m/%d/%Y")
 listarTopMPorRango(reviews, fecha_inicio, fecha_fin, 5)
