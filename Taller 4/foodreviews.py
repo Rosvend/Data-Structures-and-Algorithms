@@ -85,6 +85,6 @@ if reviews:
     #obtener los Top-M productos a partir de la tabla de símbolos de puntajes
     listarTopM(result, 5)
 
-fecha_inicio = datetime.strptime("01/01/2024", "%m/%d/%Y")
-fecha_fin = datetime.strptime("03/31/2024", "%m/%d/%Y")
+fecha_inicio = datetime.strptime("10/31/1999", "%m/%d/%Y")
+fecha_fin = datetime.strptime("10/31/2012", "%m/%d/%Y")
 listarTopMPorRango(reviews, fecha_inicio, fecha_fin, 5)
