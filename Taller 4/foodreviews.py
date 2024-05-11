@@ -16,6 +16,12 @@ class Review:
         self.time = int(time) if time is not None else 0
         self.summary = summary
         self.text = text
+        
+        
+    def get_time(self):
+        return datetime.utcfromtimestamp(self.time).strftime('%m/%d/%Y')
+
+    
 
     def __str__(self):
         profileName_short = self.profileName[:30]
