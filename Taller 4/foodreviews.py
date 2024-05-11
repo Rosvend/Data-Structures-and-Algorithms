@@ -40,9 +40,6 @@ class Review:
         self.time = int(time)
         self.summary = summary
         self.text = text
-    
-    def get_time(self):
-        return datetime.utcfromtimestamp(self.time).strftime('%m/%d/%Y')
 
       
 def read_file(filename):
