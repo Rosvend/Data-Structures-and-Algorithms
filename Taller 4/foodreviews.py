@@ -2,7 +2,7 @@ import csv
 from collections import defaultdict
 from datetime import datetime
 from typing import List, Dict
-from itertools import islice ana sofia
+from itertools import islice
 
 class Review:
     def __init__(self, id, userID, productID, profileName, helpfulness_numerator, helpfulness_denominator, score, time, summary, text):
